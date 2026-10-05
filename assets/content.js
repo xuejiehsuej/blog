@@ -1,0 +1,3 @@
+export const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+export function renderBody(body){return String(body).split(/\n\s*\n/).map(block=>block.split('\n').map(line=>line.startsWith('## ')?`<h2>${escape(line.slice(3))}</h2>`:line.startsWith('> ')?`<blockquote>${escape(line.slice(2))}</blockquote>`:`<p>${escape(line)}</p>`).join('')).join('')}
+export function filterPosts(posts,category,query){const q=query.trim().toLocaleLowerCase();return posts.filter(p=>(category==='全部'||p.category===category)&&`${p.title} ${p.summary} ${p.body}`.toLocaleLowerCase().includes(q))}
